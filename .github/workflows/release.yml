@@ -1,0 +1,102 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag (e.g. v0.24.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-deb:
+    name: Build .deb (PG ${{ matrix.pg-version }}, ${{ matrix.arch }})
+    strategy:
+      matrix:
+        pg-version: ['17']
+        include:
+          - runner: ubuntu-latest
+            arch: amd64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install PostgreSQL ${{ matrix.pg-version }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends curl ca-certificates gnupg lsb-release
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+            | sudo gpg --dearmor -o /usr/share/keyrings/pgdg.gpg
+          echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            postgresql-${{ matrix.pg-version }} \
+            postgresql-server-dev-${{ matrix.pg-version }} \
+            libicu-dev \
+            dpkg-dev
+
+      - name: Build and package .deb
+        run: |
+          export PATH="/usr/lib/postgresql/${{ matrix.pg-version }}/bin:$PATH"
+          VERSION="${{ github.ref_name || inputs.tag }}"
+          VERSION="${VERSION#v}"
+          ARCH="${{ matrix.arch }}"
+          PG="${{ matrix.pg-version }}"
+          PKG_NAME="pg_guard-v${VERSION}-pg${PG}-${ARCH}-linux-gnu"
+
+          # Build
+          make
+
+          # Stage install into temp dir
+          mkdir -p /tmp/pkg
+          make install DESTDIR=/tmp/pkg
+
+          # Create DEBIAN control file
+          mkdir -p /tmp/pkg/DEBIAN
+          cat > /tmp/pkg/DEBIAN/control << EOF
+          Package: pg-guard
+          Version: ${VERSION}
+          Architecture: ${ARCH}
+          Maintainer: Supatype <dev@supatype.io>
+          Description: PostgreSQL security extension
+           Enforces reserved roles, privileged extensions, and policy grants
+           for multi-tenant PostgreSQL deployments.
+          EOF
+
+          # Build .deb
+          dpkg-deb --build /tmp/pkg "${PKG_NAME}.deb"
+          echo "DEB_PATH=${PKG_NAME}.deb" >> $GITHUB_ENV
+          echo "DEB_NAME=${PKG_NAME}.deb" >> $GITHUB_ENV
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ env.DEB_NAME }}
+          path: ${{ env.DEB_PATH }}
+
+  release:
+    name: Create GitHub Release
+    needs: build-deb
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: '*.deb'
+          merge-multiple: true
+
+      - name: Create release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name || inputs.tag }}
+          generate_release_notes: true
+          files: '*.deb'

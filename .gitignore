@@ -1,0 +1,17 @@
+regression.*
+*.o
+*.so
+*.bc
+*.dylib
+venv/
+site/
+results/*.out
+.history
+result*
+tags
+test/expected/event_triggers.out
+*.gcno
+*.gcda
+coverage.info
+coverage_html
+test/init.conf

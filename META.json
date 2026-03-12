@@ -1,0 +1,48 @@
+{
+   "name": "pg_guard",
+   "abstract": "Unlock advanced Postgres features without granting SUPERUSER access",
+   "description": "Loadable library that securely allows creating event triggers, publications, extensions to non-superusers",
+   "version": "2.9.1",
+   "maintainer": [
+      "Supatype <dev@supatype.io>"
+   ],
+   "license": "apache",
+   "prereqs": {
+      "runtime": {
+         "requires": {
+            "PostgreSQL": "13.0.0"
+         }
+      }
+   },
+   "provides": {
+     "pg_guard": {
+       "abstract": "Unlock advanced Postgres features without granting SUPERUSER access",
+       "file": "src/pg_guard.c",
+       "version": "2.9.1",
+     },
+   },
+   "resources": {
+      "homepage": "https://github.com/supatype/pg_guard",
+      "bugtracker": {
+         "web": "https://github.com/supatype/pg_guard/issues"
+      },
+      "repository": {
+        "url":  "https://github.com/supatype/pg_guard.git",
+        "web":  "https://github.com/supatype/pg_guard",
+        "type": "git"
+      }
+   },
+   "generated_by": "Supatype",
+   "meta-spec": {
+      "version": "1.0.0",
+      "url": "https://pgxn.org/meta/spec.txt"
+   },
+   "tags": [
+      "superuser",
+      "publication",
+      "extension",
+      "event trigger",
+      "security",
+      "roles"
+   ]
+}
