@@ -135,7 +135,7 @@ static void pg_guard_fmgr_hook(FmgrHookEventType event, FmgrInfo *flinfo,
               // when the function is security definer, we need to get the
               // session user id otherwise it will fire for superusers or
               // reserved roles. See
-              // https://github.com/supabase/pg_guard/issues/140.
+              // https://github.com/supatype/pg_guard/issues/140.
               GetOuterUserId()
               : GetUserId();
       const char *current_role_name =

@@ -1,5 +1,5 @@
 -- skipped event triggers are logged
-set supautils.log_skipped_evtrigs = true;
+set pg_guard.log_skipped_evtrigs = true;
 \echo
 
 -- a superuser can create an event trigger
@@ -84,15 +84,15 @@ DETAIL:  The current user "privileged_role" is not a superuser and the function 
 \echo
 
 -- A reserved role will execute the superuser evtrig
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 create table storage_stuff();
-NOTICE:  Executing superuser event trigger: current_user is supabase_storage_admin
+NOTICE:  Executing superuser event trigger: current_user is supatype_storage_admin
 \echo
 
 drop table storage_stuff;
-NOTICE:  Executing superuser event trigger: current_user is supabase_storage_admin
+NOTICE:  Executing superuser event trigger: current_user is supatype_storage_admin
 \echo
 
 -- creating extensions will fire superuser evtrigs
@@ -134,7 +134,7 @@ ERROR:  must be owner of event trigger event_trigger_1
 \echo
 
 -- a reserved role cannot alter a superuser owned evtrig
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 alter event trigger event_trigger_1 disable;
@@ -163,7 +163,7 @@ ERROR:  must be owner of event trigger event_trigger_1
 \echo
 
 -- a reserved role cannot drop a superuser owned evtrig
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 drop event trigger event_trigger_1;
@@ -176,4 +176,4 @@ drop event trigger event_trigger_1;
 \echo
 
 -- disable logging event triggers
-reset supautils.log_skipped_evtrigs;
+reset pg_guard.log_skipped_evtrigs;

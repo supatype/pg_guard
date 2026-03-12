@@ -1,6 +1,6 @@
 -- create the extension as usual
 create extension if not exists pgmq;
-set supautils.log_skipped_evtrigs = true;
+set pg_guard.log_skipped_evtrigs = true;
 \echo
 
 -- downgrade the extension functions owners to non-superuser, to ensure the following function calls are not wrongly skipped by the event trigger mechanism

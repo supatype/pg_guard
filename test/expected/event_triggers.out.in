@@ -1,5 +1,5 @@
 -- enable logging skipped event triggers
-set supautils.log_skipped_evtrigs = true;
+set pg_guard.log_skipped_evtrigs = true;
 \echo
 
 -- create a function owned by a non-superuser
@@ -65,17 +65,17 @@ NOTICE:  the event trigger is executed for rolecreator
 \echo
 
 -- A reserved_role shouldn't execute the event trigger function
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 create table storage_stuff();
-NOTICE:  Skipping event trigger function "show_current_user" for user "supabase_storage_admin"
-DETAIL:  "supabase_storage_admin" is a reserved role and the function "show_current_user" is not superuser-owned, it's owned by "privileged_role"
+NOTICE:  Skipping event trigger function "show_current_user" for user "supatype_storage_admin"
+DETAIL:  "supatype_storage_admin" is a reserved role and the function "show_current_user" is not superuser-owned, it's owned by "privileged_role"
 \echo
 
 drop table storage_stuff;
-NOTICE:  Skipping event trigger function "show_current_user" for user "supabase_storage_admin"
-DETAIL:  "supabase_storage_admin" is a reserved role and the function "show_current_user" is not superuser-owned, it's owned by "privileged_role"
+NOTICE:  Skipping event trigger function "show_current_user" for user "supatype_storage_admin"
+DETAIL:  "supatype_storage_admin" is a reserved role and the function "show_current_user" is not superuser-owned, it's owned by "privileged_role"
 \echo
 
 -- A superuser role shouldn't execute the event trigger function
@@ -153,20 +153,20 @@ select count(*) = 1 as only_one_super from pg_roles where rolsuper;
 (1 row)
 
 -- ensure logging doesn't happen when the GUC is disabled
-set supautils.log_skipped_evtrigs = false;
+set pg_guard.log_skipped_evtrigs = false;
 \echo
 
 create table supa_stuff();
 \echo
 
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 create table some_stuff();
 \echo
 
 -- restablish logging for the rest of the tests
-set supautils.log_skipped_evtrigs = true;
+set pg_guard.log_skipped_evtrigs = true;
 \echo
 
 -- privesc won't happen because the event trigger function will fire with the privileges
@@ -237,10 +237,10 @@ DETAIL:  "postgres" is a superuser and the function "secdef_show_current_user" i
 \echo
 
 -- secdef won't be executed for reserved roles
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 create table storage_foo();
-NOTICE:  Skipping event trigger function "secdef_show_current_user" for user "supabase_storage_admin"
-DETAIL:  "supabase_storage_admin" is a reserved role and the function "secdef_show_current_user" is not superuser-owned, it's owned by "privileged_role"
+NOTICE:  Skipping event trigger function "secdef_show_current_user" for user "supatype_storage_admin"
+DETAIL:  "supatype_storage_admin" is a reserved role and the function "secdef_show_current_user" is not superuser-owned, it's owned by "privileged_role"
 \echo
 
 -- secdef will be executed for other roles

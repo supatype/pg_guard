@@ -67,7 +67,7 @@ execute procedure super_show_current_user();
 \echo
 
 -- A reserved role will execute the superuser evtrig
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 create table storage_stuff();
@@ -107,7 +107,7 @@ alter event trigger event_trigger_1 disable;
 \echo
 
 -- a reserved role cannot alter a superuser owned evtrig
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 alter event trigger event_trigger_1 disable;
@@ -133,7 +133,7 @@ drop event trigger event_trigger_1;
 \echo
 
 -- a reserved role cannot drop a superuser owned evtrig
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 drop event trigger event_trigger_1;

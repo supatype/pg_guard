@@ -55,7 +55,7 @@ create function dummy() returns text as $$ select 'dummy'; $$ language sql;
 \echo
 
 -- A reserved_role shouldn't execute the event trigger function
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 create table storage_stuff();
@@ -124,7 +124,7 @@ set pg_guard.log_skipped_evtrigs = false;
 create table supa_stuff();
 \echo
 
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 \echo
 
 create table some_stuff();
@@ -184,7 +184,7 @@ create table super_foo();
 \echo
 
 -- secdef won't be executed for reserved roles
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 create table storage_foo();
 \echo
 

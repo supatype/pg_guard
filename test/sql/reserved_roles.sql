@@ -10,20 +10,20 @@ drop role r;
 \echo
 
 -- cannot rename a reserved role
-alter role supabase_storage_admin rename to another;
+alter role supatype_storage_admin rename to another;
 \echo
 
 -- cannot alter-options a reserved role
-alter role supabase_storage_admin nologin superuser;
-alter role supabase_storage_admin password 'pass';
+alter role supatype_storage_admin nologin superuser;
+alter role supatype_storage_admin password 'pass';
 \echo
 
 -- cannot alter-config for a reserved role
-alter role supabase_storage_admin set search_path to 'test';
+alter role supatype_storage_admin set search_path to 'test';
 \echo
 
 -- cannot drop a reserved role
-drop role fake, supabase_storage_admin;
+drop role fake, supatype_storage_admin;
 drop role anon, fake;
 \echo
 
@@ -69,7 +69,7 @@ alter role current_user password 'pass';
 \echo
 
 -- cannot bypass alter-config check by using current_user
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 alter role current_user set search_path to 'test';
 \echo
 
@@ -82,5 +82,5 @@ create role reserved_but_not_yet_created;
 alter role reserved_but_not_yet_created set search_path to 'test';
 alter role reserved_but_not_yet_created login bypassrls;
 alter role reserved_but_not_yet_created rename to renamed_reserved_role;
-drop owned by supabase_storage_admin cascade;
-drop role supabase_storage_admin;
+drop owned by supatype_storage_admin cascade;
+drop role supatype_storage_admin;

@@ -10,25 +10,25 @@ drop role r;
 \echo
 
 -- cannot rename a reserved role
-alter role supabase_storage_admin rename to another;
-ERROR:  "supabase_storage_admin" is a reserved role, only superusers can modify it
+alter role supatype_storage_admin rename to another;
+ERROR:  "supatype_storage_admin" is a reserved role, only superusers can modify it
 \echo
 
 -- cannot alter-options a reserved role
-alter role supabase_storage_admin nologin superuser;
-ERROR:  "supabase_storage_admin" is a reserved role, only superusers can modify it
-alter role supabase_storage_admin password 'pass';
-ERROR:  "supabase_storage_admin" is a reserved role, only superusers can modify it
+alter role supatype_storage_admin nologin superuser;
+ERROR:  "supatype_storage_admin" is a reserved role, only superusers can modify it
+alter role supatype_storage_admin password 'pass';
+ERROR:  "supatype_storage_admin" is a reserved role, only superusers can modify it
 \echo
 
 -- cannot alter-config for a reserved role
-alter role supabase_storage_admin set search_path to 'test';
-ERROR:  "supabase_storage_admin" is a reserved role, only superusers can modify it
+alter role supatype_storage_admin set search_path to 'test';
+ERROR:  "supatype_storage_admin" is a reserved role, only superusers can modify it
 \echo
 
 -- cannot drop a reserved role
-drop role fake, supabase_storage_admin;
-ERROR:  "supabase_storage_admin" is a reserved role, only superusers can modify it
+drop role fake, supatype_storage_admin;
+ERROR:  "supatype_storage_admin" is a reserved role, only superusers can modify it
 drop role anon, fake;
 ERROR:  "anon" is a reserved role, only superusers can modify it
 \echo
@@ -90,9 +90,9 @@ ERROR:  "anon" is a reserved role, only superusers can modify it
 \echo
 
 -- cannot bypass alter-config check by using current_user
-set role supabase_storage_admin;
+set role supatype_storage_admin;
 alter role current_user set search_path to 'test';
-ERROR:  "supabase_storage_admin" is a reserved role, only superusers can modify it
+ERROR:  "supatype_storage_admin" is a reserved role, only superusers can modify it
 \echo
 
 -- use a role that has the SUPERUSER privilege
@@ -104,5 +104,5 @@ create role reserved_but_not_yet_created;
 alter role reserved_but_not_yet_created set search_path to 'test';
 alter role reserved_but_not_yet_created login bypassrls;
 alter role reserved_but_not_yet_created rename to renamed_reserved_role;
-drop owned by supabase_storage_admin cascade;
-drop role supabase_storage_admin;
+drop owned by supatype_storage_admin cascade;
+drop role supatype_storage_admin;

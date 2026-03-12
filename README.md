@@ -1,9 +1,9 @@
 # pg_guard
 
-[![Coverage Status](https://coveralls.io/repos/github/supabase/pg_guard/badge.svg?branch=master)](https://coveralls.io/github/supabase/pg_guard?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/supatype/pg_guard/badge.svg?branch=main)](https://coveralls.io/github/supatype/pg_guard?branch=main)
 ![PostgreSQL version](https://img.shields.io/badge/postgresql-13+-blue.svg)
 
-Supautils is an extension that unlocks advanced Postgres features without granting SUPERUSER access.
+pg_guard is an extension that unlocks advanced Postgres features without granting SUPERUSER access.
 
 It's a loadable library that securely allows creating event triggers, publications, extensions to non-superusers. Built for cloud deployments where giving SUPERUSER rights to end users isn’t an option.
 
@@ -129,7 +129,7 @@ CREATE EVENT TRIGGER
 The privileged role won't be able to ALTER or DROP a superuser event trigger.
 
 > [!IMPORTANT]
-> Limitation: privileged role event triggers won't fire when creating publications, foreign data wrappers or extensions. See https://github.com/supabase/pg_guard/issues/123.
+> Limitation: privileged role event triggers won't fire when creating publications, foreign data wrappers or extensions.
 
 ### Non-Superuser Settings
 
@@ -305,7 +305,7 @@ Certain default postgres roles are dangerous to expose to every database user. F
 > As these roles are able to access any file on the server file system, they bypass all database-level permission checks when accessing files directly
 > and **they could be used to gain superuser-level access**, therefore great care should be taken when granting these roles to users.
 
-Supautils allows you to restrict doing `GRANT pg_read_server_files TO my_role` by setting:
+pg_guard allows you to restrict doing `GRANT pg_read_server_files TO my_role` by setting:
 
 ```
 pg_guard.reserved_memberships = 'pg_read_server_files'

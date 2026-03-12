@@ -84,7 +84,6 @@ drop role r;
 set role privileged_role;
 \echo
 
--- regression: https://github.com/supabase/pg_guard/issues/34
 create role tmp;
 alter role tmp;
 \echo

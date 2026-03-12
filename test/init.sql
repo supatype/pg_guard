@@ -1,5 +1,5 @@
 -- reserved roles
-create role supabase_storage_admin noinherit;
+create role supatype_storage_admin noinherit;
 create role anon noinherit;
 
 -- login role
@@ -8,7 +8,7 @@ grant anon to rolecreator with admin option;
 grant pg_monitor to rolecreator with admin option;
 grant pg_read_all_settings to rolecreator with admin option;
 grant pg_read_all_stats to rolecreator with admin option;
-grant supabase_storage_admin to rolecreator;
+grant supatype_storage_admin to rolecreator;
 
 -- other roles
 create role fake noinherit;
@@ -39,4 +39,4 @@ grant all privileges on database postgres to nonsuper;
 -- this makes the behavior backwards compat
 grant all on schema public to privileged_role;
 grant all on schema public to rolecreator;
-grant all on schema public to supabase_storage_admin;
+grant all on schema public to supatype_storage_admin;
